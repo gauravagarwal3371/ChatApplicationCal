@@ -18,8 +18,12 @@ send messages, and view chat history.
 * H2 Database
 * Maven
 * JUnit
+* Websocket
 
 `Usage`
 * Register a new user by making a POST request to /api/users/register with a JSON body containing the username and password.
 * Send messages to the chat room by making a POST request to /api/chat/send with a JSON body containing the message and sender.
 * Retrieve chat history by making a GET request to /api/chat/history.
+* Login to the application using username and password with a POST request to api/users/login
+* Retrieve messages for a particular user by making a GET request to api/chat/get/{username}
+* WebSocket Controller is created for adding user and sending messages to the chat window 
