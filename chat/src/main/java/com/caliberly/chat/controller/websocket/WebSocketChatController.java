@@ -9,6 +9,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 @Controller
 public class WebSocketChatController {
 
@@ -25,21 +27,20 @@ public class WebSocketChatController {
 
     @MessageMapping("/chat.deleteMessage")
     @SendTo("/topic/public")
-    public WebSocketChatMessage deleteMessage(
-            @Payload WebSocketChatMessage chatMessage,
-            SimpMessageHeaderAccessor headerAccessor
+    public List<WebSocketChatMessage> deleteMessage(
+            @Payload String messageId
     ) {
-        webSocketChatMessageRepository.delete(chatMessage);
-        return chatMessage;
+        webSocketChatMessageRepository.deleteById(Long.valueOf(messageId));
+        return webSocketChatMessageRepository.findAll();
     }
 
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
-    public WebSocketChatMessage addUser(
+    public List<WebSocketChatMessage> addUser(
             @Payload WebSocketChatMessage chatMessage,
             SimpMessageHeaderAccessor headerAccessor
     ) {
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatMessage;
+        return webSocketChatMessageRepository.findAll();
     }
 }
