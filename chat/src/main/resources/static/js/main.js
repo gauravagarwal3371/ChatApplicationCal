@@ -95,6 +95,7 @@ function displayMessage(message) {
     usernameElement.appendChild(usernameText);
     messageElement.appendChild(usernameElement);
 
+    if (message.sender === username) {
     var deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.classList.add('delete-button');
@@ -102,6 +103,7 @@ function displayMessage(message) {
          deleteMessage(message.id);
     };
     messageElement.appendChild(deleteButton);
+    }
 
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.message);
