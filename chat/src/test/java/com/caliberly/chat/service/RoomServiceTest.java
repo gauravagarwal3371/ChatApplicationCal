@@ -1,18 +1,18 @@
 package com.caliberly.chat.service;
 
-import static org.mockito.Mockito.*;
+import com.caliberly.chat.entity.ChatRoom;
+import com.caliberly.chat.repository.ChatRoomRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import com.caliberly.chat.entity.ChatRoom;
-import com.caliberly.chat.repository.ChatRoomRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
 
 public class RoomServiceTest {
 
@@ -22,7 +22,7 @@ public class RoomServiceTest {
     @InjectMocks
     private RoomService roomService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
@@ -38,17 +38,18 @@ public class RoomServiceTest {
 
         ChatRoom actualRoom = roomService.getChatRoomById(roomId);
 
-        Assert.assertEquals(expectedRoom.getId(), actualRoom.getId());
-        Assert.assertEquals(expectedRoom.getName(), actualRoom.getName());
+        Assertions.assertEquals(expectedRoom.getId(), actualRoom.getId());
+        Assertions.assertEquals(expectedRoom.getName(), actualRoom.getName());
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void testGetChatRoomById_NotFound() {
         Long roomId = 1L;
 
         when(chatRoomRepository.findById(roomId)).thenReturn(Optional.empty());
 
-        roomService.getChatRoomById(roomId);
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
+            roomService.getChatRoomById(roomId);
+        });
     }
 }
-

@@ -4,17 +4,19 @@ import com.caliberly.chat.entity.User;
 import com.caliberly.chat.exception.AuthenticationFailed;
 import com.caliberly.chat.exception.BadRequestException;
 import com.caliberly.chat.service.UserService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
 public class UserControllerTest {
 
     @Mock
@@ -23,7 +25,7 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
@@ -40,11 +42,11 @@ public class UserControllerTest {
 
         ResponseEntity<?> response = userController.registerUser(user);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(user, response.getBody());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(user, response.getBody());
     }
 
-    @Test(expected = BadRequestException.class)
+    @Test
     public void testRegisterUser_UserAlreadyExists() {
         User user = new User();
         user.setUsername("existinguser");
@@ -52,8 +54,7 @@ public class UserControllerTest {
 
         when(userService.getUserByUsername(user.getUsername())).thenReturn(user);
 
-        userController.registerUser(user);
-
+        Assertions.assertThrows(BadRequestException.class, () -> userController.registerUser(user));
     }
 
     @Test
@@ -66,10 +67,10 @@ public class UserControllerTest {
 
         ResponseEntity<?> response = userController.loginUser(user);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    @Test(expected = AuthenticationFailed.class)
+    @Test
     public void testLoginUser_AuthenticationFailed() {
         User user = new User();
         user.setUsername("testuser");
@@ -77,7 +78,6 @@ public class UserControllerTest {
 
         when(userService.authenticateUser(user.getUsername(), user.getPassword())).thenReturn(null);
 
-        userController.loginUser(user);
+        Assertions.assertThrows(AuthenticationFailed.class, () -> userController.loginUser(user));
     }
 }
-

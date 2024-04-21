@@ -1,19 +1,21 @@
 package com.caliberly.chat.service;
 
-import static org.mockito.Mockito.*;
+import com.caliberly.chat.entity.ChatMessage;
+import com.caliberly.chat.repository.ChatMessageRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.caliberly.chat.entity.ChatMessage;
-import com.caliberly.chat.repository.ChatMessageRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class ChatServiceTest {
 
     @Mock
@@ -22,7 +24,7 @@ public class ChatServiceTest {
     @InjectMocks
     private ChatService chatService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
@@ -39,9 +41,9 @@ public class ChatServiceTest {
 
         List<ChatMessage> actualMessages = chatService.getChatHistory();
 
-        Assert.assertEquals(expectedMessages.size(), actualMessages.size());
-        Assert.assertEquals(expectedMessages.get(0).getMessage(), actualMessages.get(0).getMessage());
-        Assert.assertEquals(expectedMessages.get(1).getMessage(), actualMessages.get(1).getMessage());
+        Assertions.assertEquals(expectedMessages.size(), actualMessages.size());
+        Assertions.assertEquals(expectedMessages.get(0).getMessage(), actualMessages.get(0).getMessage());
+        Assertions.assertEquals(expectedMessages.get(1).getMessage(), actualMessages.get(1).getMessage());
     }
 
     @Test
@@ -69,10 +71,8 @@ public class ChatServiceTest {
 
         List<ChatMessage> actualMessages = chatService.findByUsername(username);
 
-        Assert.assertEquals(expectedMessages.size(), actualMessages.size());
-        Assert.assertEquals(expectedMessages.get(0).getMessage(), actualMessages.get(0).getMessage());
-        Assert.assertEquals(expectedMessages.get(1).getMessage(), actualMessages.get(1).getMessage());
+        Assertions.assertEquals(expectedMessages.size(), actualMessages.size());
+        Assertions.assertEquals(expectedMessages.get(0).getMessage(), actualMessages.get(0).getMessage());
+        Assertions.assertEquals(expectedMessages.get(1).getMessage(), actualMessages.get(1).getMessage());
     }
-
 }
-

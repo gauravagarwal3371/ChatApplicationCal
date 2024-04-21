@@ -1,25 +1,27 @@
 package com.caliberly.chat.controller;
 
-import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
-import java.util.List;
-
 import com.caliberly.chat.entity.ChatMessage;
 import com.caliberly.chat.entity.ChatRoom;
 import com.caliberly.chat.entity.User;
 import com.caliberly.chat.service.ChatService;
 import com.caliberly.chat.service.RoomService;
 import com.caliberly.chat.service.UserService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
 public class ChatControllerTest {
 
     @Mock
@@ -34,7 +36,7 @@ public class ChatControllerTest {
     @InjectMocks
     private ChatController chatController;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
@@ -53,7 +55,7 @@ public class ChatControllerTest {
 
         ResponseEntity<?> response = chatController.sendMessage(message);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
@@ -69,8 +71,8 @@ public class ChatControllerTest {
 
         ResponseEntity<List<ChatMessage>> response = chatController.getMessage(username);
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(chatMessages, response.getBody());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(chatMessages, response.getBody());
     }
 
     @Test
@@ -85,8 +87,7 @@ public class ChatControllerTest {
 
         ResponseEntity<List<ChatMessage>> response = chatController.getChatHistory();
 
-        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assert.assertEquals(chatHistory, response.getBody());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(chatHistory, response.getBody());
     }
 }
-

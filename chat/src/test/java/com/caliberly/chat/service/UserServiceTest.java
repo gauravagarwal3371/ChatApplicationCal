@@ -1,16 +1,19 @@
 package com.caliberly.chat.service;
 
-import static org.mockito.Mockito.*;
-
 import com.caliberly.chat.entity.User;
 import com.caliberly.chat.repository.UserRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@SpringBootTest
 public class UserServiceTest {
 
     @Mock
@@ -19,7 +22,7 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 
-    @Before
+    @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
@@ -36,8 +39,8 @@ public class UserServiceTest {
 
         User actualUser = userService.createUser(username, password);
 
-        Assert.assertEquals(expectedUser.getUsername(), actualUser.getUsername());
-        Assert.assertEquals(expectedUser.getPassword(), actualUser.getPassword());
+        Assertions.assertEquals(expectedUser.getUsername(), actualUser.getUsername());
+        Assertions.assertEquals(expectedUser.getPassword(), actualUser.getPassword());
     }
 
     @Test
@@ -50,7 +53,7 @@ public class UserServiceTest {
 
         User actualUser = userService.getUserByUsername(username);
 
-        Assert.assertEquals(expectedUser.getUsername(), actualUser.getUsername());
+        Assertions.assertEquals(expectedUser.getUsername(), actualUser.getUsername());
     }
 
     @Test
@@ -65,7 +68,7 @@ public class UserServiceTest {
 
         User authenticatedUser = userService.authenticateUser(username, password);
 
-        Assert.assertEquals(expectedUser, authenticatedUser);
+        Assertions.assertEquals(expectedUser, authenticatedUser);
     }
 
     @Test
@@ -80,7 +83,6 @@ public class UserServiceTest {
 
         User authenticatedUser = userService.authenticateUser(username, "incorrect");
 
-        Assert.assertNull(authenticatedUser);
+        Assertions.assertNull(authenticatedUser);
     }
 }
-
